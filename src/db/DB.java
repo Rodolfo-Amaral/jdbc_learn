@@ -33,7 +33,7 @@ public class DB {
 				throw new DbException("ERRO " + sql.getMessage());
 			}
 		}else {
-			System.out.println("Conexão Falhou!");
+			System.out.println("Falha na conexão!");
 		}
 	}
 
