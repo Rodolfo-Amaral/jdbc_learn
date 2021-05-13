@@ -28,7 +28,6 @@ public class DB {
 	public static void fecharConexao() {
 		if (conexao != null) {
 			try {
-				System.out.println("Conexão Realizada!");
 				conexao.close();
 			}catch (SQLException sql) {
 				throw new DbException("ERRO " + sql.getMessage());
