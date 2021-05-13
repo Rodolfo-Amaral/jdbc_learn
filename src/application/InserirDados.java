@@ -32,14 +32,15 @@ public class InserirDados {
 			ps.setInt(5, 4);
 			
 			int linhasAfetadas = ps.executeUpdate();
-			System.out.println("COMPLETO! \n" + linhasAfetadas + " linhas afetadas!");
+			System.out.println("COMPLETO!\n" + linhasAfetadas + " linhas afetadas!");
 			
 		}catch (SQLException e) {
 			e.printStackTrace();
 		}catch (ParseException e) {
 			e.printStackTrace();
 		}
-		finally {//fechamento das conexões
+		finally {
+			//fechamento das conexões
 			DB.fecharStatement(ps);
 			DB.fecharResultSet(rs);
 			DB.fecharConexao();
