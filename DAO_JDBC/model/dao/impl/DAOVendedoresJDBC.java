@@ -1,9 +1,11 @@
 package model.dao.impl;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -26,13 +28,45 @@ public class DAOVendedoresJDBC implements DAOVendedores {
 
 	//
 	@Override
-	public void insert(Vendedores dpt) {
-		
+	public void insert(Vendedores vendedor) {
+		PreparedStatement ps = null;
+		try {
+			ps = conexao.prepareStatement("INSERT INTO vendedor "
+					+"(Nome, Email, Data_Nascimento, Salario_Base, Id_dpt) "
+					+"VALUES "
+					+ "(?, ?, ?, ?, ?)",
+					Statement.RETURN_GENERATED_KEYS);
+			
+			ps.setString(1, vendedor.getNome());
+			ps.setString(2, vendedor.getEmail());
+			ps.setDate(3, new java.sql.Date(vendedor.getDataNascimento().getTime()));
+			ps.setDouble(4, vendedor.getSalarioBase());
+			ps.setInt(5, vendedor.getDepartamento().getId());
+			int registros = ps.executeUpdate();
+			
+			if (registros > 0) {
+				ResultSet rs = ps.getGeneratedKeys();
+				if (rs.next()) {
+					int id = rs.getInt(1);
+					vendedor.setId(id);
+					DB.fecharResultSet(rs);
+				}
+			}
+			else {
+				throw new DbException("Erro inesperado! Sem registros afetados!");
+			}
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.fecharStatement(ps);
+		}
 		
 	}
 
 	@Override
-	public void update(Vendedores dpt) {
+	public void update(Vendedores vendedor) {
 		
 		
 	}

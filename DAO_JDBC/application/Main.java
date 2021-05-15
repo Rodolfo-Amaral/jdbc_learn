@@ -1,5 +1,6 @@
 package application;
 
+import java.util.Date;
 import java.util.List;
 
 import entities.Departamento;
@@ -24,8 +25,12 @@ public class Main {
 		System.out.println("\n=====TESTE 3: FIND ALL=====");
 		lista = daoVendedor.findAll();
 		for (Vendedores registro : lista) {
-			System.out.println(registro + "\n");
+			System.out.println(registro);
 		}
+		System.out.println("\n=====TESTE 4: INSERT=====");
+		Vendedores novoVendedor = new Vendedores(null, "Chris e Greg", "crisgreg@outlook.com", new Date(), 1000.0, dpt);
+		daoVendedor.insert(novoVendedor);
+		System.out.println("Registro inserido!\nNovo ID = "+novoVendedor.getId()+"\nVendedor: " + novoVendedor.getNome());
 	}
 
 }
