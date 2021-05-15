@@ -9,11 +9,14 @@ public class Departamento implements Serializable{
 	private String nome;
 
 	//Constructors
+	public Departamento() {
+	}
 	public Departamento(Integer id, String nome) {
 		this.id = id;
 		this.nome = nome;
 	}
 	
+
 	//Getters/Setters
 	public Integer getId() {
 		return id;

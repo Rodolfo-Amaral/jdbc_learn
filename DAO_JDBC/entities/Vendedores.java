@@ -109,10 +109,10 @@ public class Vendedores implements Serializable{
 	//toString
 	@Override
 	public String toString() {
-		return "Vendedor(es) adicionado(s)!\n"
+		return "Vendedor:\n"
 				+ "ID do vendedor = " + id + "\nNome do vendedor = " + nome + "\nE-mail = " + email
 				+ "\nData de nascimento = " + dataNascimento
-				+ "\nSalário Bruto = " + salarioBase + "\nAdicionado ao departamento [ID = "
+				+ "\nSalário Bruto = " + salarioBase + "\nDepartamento [ID = "
 				+ departamento.getId() + "]: " + departamento.getNome();
 	}
 }
