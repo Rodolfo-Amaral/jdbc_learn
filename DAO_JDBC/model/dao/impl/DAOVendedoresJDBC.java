@@ -1,11 +1,13 @@
 package model.dao.impl;
 
-import java.security.DrbgParameters.Instantiation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import db.DB;
 import db.DbException;
@@ -90,6 +92,43 @@ public class DAOVendedoresJDBC implements DAOVendedores {
 	@Override
 	public List<Vendedores> findAll() {
 		return null;
+	}
+
+	@Override
+	public List<Vendedores> findByDepartment(Departamento departamento) {
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			//Query
+			ps = conexao.prepareStatement("SELECT vendedor.*,departamento.Nome as DepNome "
+					+ "FROM vendedor INNER JOIN departamento "
+					+ "ON vendedor.Id_dpt = departamento.ID "
+					+ "WHERE Id_dpt = ? "
+					+ "ORDER BY Nome");
+			ps.setInt(1, departamento.getId());
+			rs = ps.executeQuery();
+			
+			//Teste do resultado da consulta
+			List<Vendedores> lista = new ArrayList<>();
+			Map<Integer, Departamento> map = new HashMap<>();
+			while(rs.next()) {
+				//Se o dpt existir o map vai pegar ele e se o if der falso ira reaproveitar o dpt, para nao ficar criando varios departamentos aleatorios
+				Departamento dpt = map.get(rs.getInt("Id_dpt"));
+				if(dpt == null) {
+					dpt = instantiateDepartamento(rs);
+					map.put(rs.getInt("Id_dpt"), dpt);
+				}
+				Vendedores vendedores = instantiateVendedores(rs, dpt);
+				lista.add(vendedores);			
+			}
+			return lista;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.fecharStatement(ps);
+			DB.fecharResultSet(rs);
+		}
 	}
 	
 
