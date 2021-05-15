@@ -1,5 +1,6 @@
 package model.dao.impl;
 
+import java.security.DrbgParameters.Instantiation;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -54,16 +55,8 @@ public class DAOVendedoresJDBC implements DAOVendedores {
 			//Teste do resultado da consulta
 			if (rs.next()) { 
 				//Coleta dos dados
-				Departamento dpt = new Departamento();
-				dpt.setId(rs.getInt("Id_dpt"));
-				dpt.setNome(rs.getString("DepNome"));
-				Vendedores vendedores = new Vendedores();
-				vendedores.setId(rs.getInt("ID"));
-				vendedores.setNome(rs.getString("Nome"));
-				vendedores.setEmail(rs.getString("Email"));
-				vendedores.setSalarioBase(rs.getDouble("Salario_Base"));
-				vendedores.setDataNascimento(rs.getDate("Data_Nascimento"));
-				vendedores.setDepartamento(dpt); //pegar tudo que ja está definido na classe
+				Departamento dpt = instantiateDepartamento(rs); 
+				Vendedores vendedores = instantiateVendedores(rs, dpt);
 				return vendedores;
 			}
 			return null;
@@ -74,6 +67,24 @@ public class DAOVendedoresJDBC implements DAOVendedores {
 			DB.fecharStatement(ps);
 			DB.fecharResultSet(rs);
 		}
+	}
+
+	private Vendedores instantiateVendedores(ResultSet rs, Departamento dpt) throws SQLException {
+		Vendedores vendedores = new Vendedores();
+		vendedores.setId(rs.getInt("ID"));
+		vendedores.setNome(rs.getString("Nome"));
+		vendedores.setEmail(rs.getString("Email"));
+		vendedores.setSalarioBase(rs.getDouble("Salario_Base"));
+		vendedores.setDataNascimento(rs.getDate("Data_Nascimento"));
+		vendedores.setDepartamento(dpt); //pegar tudo que ja está definido na classe
+		return vendedores;
+	}
+
+	private Departamento instantiateDepartamento(ResultSet rs) throws SQLException {
+		Departamento dpt = new Departamento();
+		dpt.setId(rs.getInt("Id_dpt"));
+		dpt.setNome(rs.getString("DepNome"));
+		return dpt;
 	}
 
 	@Override

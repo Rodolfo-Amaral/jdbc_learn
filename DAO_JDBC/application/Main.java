@@ -8,6 +8,7 @@ public class Main {
 
 	public static void main(String[] args) {
 		DAOVendedores daoVendedor = DAOFactory.criarDaoVendedores();
+		System.out.println("=====TESTE 1: vendedor por ID=====");
 		Vendedores vendedor = daoVendedor.findById(3);
 		System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXXXXX\n");
 		System.out.println(vendedor);
