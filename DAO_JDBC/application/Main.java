@@ -21,7 +21,11 @@ public class Main {
 		for (Vendedores registro : lista) {
 			System.out.println(registro + "\n");
 		}
-
+		System.out.println("\n=====TESTE 3: FIND ALL=====");
+		lista = daoVendedor.findAll();
+		for (Vendedores registro : lista) {
+			System.out.println(registro + "\n");
+		}
 	}
 
 }

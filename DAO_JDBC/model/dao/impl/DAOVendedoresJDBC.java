@@ -91,7 +91,38 @@ public class DAOVendedoresJDBC implements DAOVendedores {
 
 	@Override
 	public List<Vendedores> findAll() {
-		return null;
+		PreparedStatement ps = null;
+		ResultSet rs = null;
+		try {
+			//Query
+			ps = conexao.prepareStatement("SELECT vendedor.*,departamento.Nome as DepNome "
+					+ "FROM vendedor INNER JOIN departamento "
+					+ "ON vendedor.Id_dpt = departamento.ID "
+					+ "ORDER BY Nome");
+
+			rs = ps.executeQuery();
+			
+			//Teste do resultado da consulta
+			List<Vendedores> lista = new ArrayList<>();
+			Map<Integer, Departamento> map = new HashMap<>();
+			while(rs.next()) {
+				//Se o dpt existir o map vai registar ele e se o if der falso ira reaproveitar o dpt, para nao ficar criando varios departamentos aleatorios
+				Departamento dpt = map.get(rs.getInt("Id_dpt"));
+				if(dpt == null) {
+					dpt = instantiateDepartamento(rs);
+					map.put(rs.getInt("Id_dpt"), dpt);
+				}
+				Vendedores vendedores = instantiateVendedores(rs, dpt);
+				lista.add(vendedores);			
+			}
+			return lista;
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.fecharStatement(ps);
+			DB.fecharResultSet(rs);
+		}
 	}
 
 	@Override
