@@ -90,7 +90,17 @@ public class DAOVendedoresJDBC implements DAOVendedores {
 
 	@Override
 	public void deleteById(Integer id) {
-		
+		PreparedStatement ps = null;
+		try {
+			ps = conexao.prepareStatement("DELETE FROM vendedor WHERE ID = ?");
+			ps.setInt(1, id);
+			ps.executeUpdate();
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.fecharStatement(ps);
+		}
 	}
 
 	@Override
