@@ -62,13 +62,30 @@ public class DAOVendedoresJDBC implements DAOVendedores {
 		finally {
 			DB.fecharStatement(ps);
 		}
-		
 	}
 
 	@Override
 	public void update(Vendedores vendedor) {
-		
-		
+		PreparedStatement ps = null;
+		try {
+			ps = conexao.prepareStatement("UPDATE vendedor "
+					+"SET Nome = ?, Email = ?, Data_Nascimento = ?, Salario_Base = ?, Id_dpt = ? "
+					+"WHERE ID = ?");
+			
+			ps.setString(1, vendedor.getNome());
+			ps.setString(2, vendedor.getEmail());
+			ps.setDate(3, new java.sql.Date(vendedor.getDataNascimento().getTime()));
+			ps.setDouble(4, vendedor.getSalarioBase());
+			ps.setInt(5, vendedor.getDepartamento().getId());
+			ps.setInt(6, vendedor.getId());
+			ps.executeUpdate();
+			
+		} catch (SQLException e) {
+			throw new DbException(e.getMessage());
+		}
+		finally {
+			DB.fecharStatement(ps);
+		}
 	}
 
 	@Override

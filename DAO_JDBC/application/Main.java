@@ -31,6 +31,13 @@ public class Main {
 		Vendedores novoVendedor = new Vendedores(null, "Chris e Greg", "crisgreg@outlook.com", new Date(), 1000.0, dpt);
 		daoVendedor.insert(novoVendedor);
 		System.out.println("Registro inserido!\nNovo ID = "+novoVendedor.getId()+"\nVendedor: " + novoVendedor.getNome());
+		
+		System.out.println("\n=====TESTE 5: UPDATE=====");
+		vendedor = daoVendedor.findById(2);
+		vendedor.setNome("Martha Vania");
+		daoVendedor.update(vendedor);
+		System.out.println("Atualizado com sucesso os dados do vendedor ID = "+ vendedor.getId());
+		
 	}
 
 }

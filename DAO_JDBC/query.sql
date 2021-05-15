@@ -22,3 +22,8 @@ INSERT INTO vendedor
 (Nome, Email, Data_Nascimento, Salario_Base, Id_dpt)
 VALUES
 (?, ?, ?, ?, ?)
+
+/* UPDATE */
+UPDATE vendedor
+SET Nome = ?, Email = ?, Data_Nascimento = ?, Salario_Base = ?, Id_dpt = ?
+WHERE Id = ?
