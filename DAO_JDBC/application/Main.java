@@ -28,12 +28,12 @@ public class Main {
 		lista = daoVendedor.findAll();
 		for (Vendedores registro : lista) {
 			System.out.println(registro);
-		}/*
+		}
 		System.out.println("\n=====TESTE 4: INSERT=====");
 		Vendedores novoVendedor = new Vendedores(null, "Chris e Greg", "crisgreg@outlook.com", new Date(), 1000.0, dpt);
 		daoVendedor.insert(novoVendedor);
 		System.out.println("Registro inserido!\nNovo ID = "+novoVendedor.getId()+"\nVendedor: " + novoVendedor.getNome());
-		*/
+
 		System.out.println("\n=====TESTE 5: UPDATE=====");
 		vendedor = daoVendedor.findById(2);
 		vendedor.setNome("Martha Vania");
